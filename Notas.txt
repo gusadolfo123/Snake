@@ -1,0 +1,5 @@
+npm init --yes
+npm i webpack webpack-cli style-loader css-loader webpack-dev-server html-webpack-plugin
+npm i @babel/core @babel/preset-env @babel/polyfill babel-loader
+npm i --save-dev mini-css-extract-plugin // este se usa opara separa el css cuando se hace el build
+tsc --init
