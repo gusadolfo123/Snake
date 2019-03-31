@@ -3,3 +3,4 @@ npm i webpack webpack-cli style-loader css-loader webpack-dev-server html-webpac
 npm i @babel/core @babel/preset-env @babel/polyfill babel-loader
 npm i --save-dev mini-css-extract-plugin // este se usa opara separa el css cuando se hace el build
 tsc --init
+git init

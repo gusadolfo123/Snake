@@ -1,7 +1,8 @@
 class Game {
   constructor() {}
-  init() {
-    console.log('inicializando');
+  mostrar() {
+    console.log('mostrar');
   }
 }
+
 export default Game;
