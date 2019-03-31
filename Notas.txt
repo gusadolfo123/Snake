@@ -4,3 +4,11 @@ npm i @babel/core @babel/preset-env @babel/polyfill babel-loader
 npm i --save-dev mini-css-extract-plugin // este se usa opara separa el css cuando se hace el build
 tsc --init
 git init
+
+-- soporte ie
+-- 1. Forma
+npm i --save isomorphic-fetch es6-promise (con este es necesario importar en el index import "isomorphic-fetch" y FUNCIONA)
+
+-- 2. Forma
+npm i whatwg-fetch --save
+npm i import-loeader 
