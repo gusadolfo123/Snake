@@ -1,7 +1,7 @@
-import Position from "./position";
+import Position from './position';
+import {isNullOrUndefined} from 'util';
 
 class Game {
-
   constructor(size = 15, canvas) {
     this.food = new Position(0, 0);
     this.score = 0;
@@ -27,19 +27,28 @@ class Game {
     return number;
   }
 
-  collision() {}
-
   init() {
     this.generateFood();
     this.snake.push(new Position(this.size, this.size));
     this.director = setInterval(() => {
-      this.next();
+      // this.snake.map((element, index) => {
+      this.next(this.snake[0], 0);
+      // });
+      this.collision();
       this.show();
     }, this.velocity);
   }
 
-  show() {
+  collision() {
+    let prev = Object.assign(new Position(), this.snake[0]);
+    if (this.snake[0].X == this.food.X && this.snake[0].Y == this.food.Y) {
+      this.score += 10;
+      this.snake.push(prev);
+      this.generateFood();
+    }
+  }
 
+  show() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.snake.map(element => {
@@ -49,38 +58,29 @@ class Game {
 
     this.ctx.fillStyle = 'red';
     this.ctx.fillRect(this.food.X, this.food.Y, this.size, this.size);
-
   }
 
-  next() {
-    for (let index = 0; index < this.snake.length; index++) {
+  next(element, index) {
+    let prev = Object.assign(new Position(), element);
+    switch (this.direction) {
+      case 1:
+        element.Y -= this.size;
+        break;
+      case 2:
+        element.Y += this.size;
+        break;
+      case 3:
+        element.X += this.size;
+        break;
+      case 4:
+        element.X -= this.size;
+        break;
+    }
 
-      let positionPrev = Object.assign(new Position(), this.snake[index]);
-
-      switch (this.direction) {
-        case 1:
-          this.snake[index].Y -= this.size;
-          break;
-        case 2:
-          this.snake[index].Y += this.size;
-          break;
-        case 3:
-          this.snake[index].X += this.size;
-          break;
-        case 4:
-          this.snake[index].X -= this.size;
-          break;
-      }
-
-      if (this.snake[0].X == this.food.X && this.snake[0].Y == this.food.Y) {
-        this.score += 10;
-        this.snake.push(positionPrev);
-        this.generateFood();
-      }
-      break;
+    if (!isNullOrUndefined(this.snake[index + 1])) {
+      this.next(this.snake[index + 1], index + 1);
     }
   }
-
 }
 
 export default Game;
