@@ -71,8 +71,6 @@ class Game {
     this.generateFood();
     this.snake.push(new Position(this.size, this.size));
     this.director = setInterval(() => {
-      // this.next();
-      //this.nextU(this.snake.length - 1);
       this.next();
       this.collision();
       this.show();
@@ -86,7 +84,6 @@ class Game {
       this.ctx.fillStyle = 'green';
       this.ctx.fillRect(element.X, element.Y, this.size, this.size);
     });
-
 
     this.ctx.fillStyle = 'red';
     this.ctx.fillRect(this.food.X, this.food.Y, this.size, this.size);
