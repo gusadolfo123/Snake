@@ -1,7 +1,5 @@
 import Position from './position';
-import {
-  isNullOrUndefined
-} from 'util';
+import {isNullOrUndefined} from 'util';
 
 class Game {
   constructor(size = 15, canvas) {
@@ -14,7 +12,9 @@ class Game {
     this.director = null;
     this.direction = 2;
     this.velocity = 50;
-    this.a = new AudioContext(); // browsers limit the number of concurrent audio contexts, so you better re-use'em
+    this.a = new AudioContext();
+    this.dx = 0;
+    this.dy = 0;
   }
 
   beep(vol, freq, duration) {
@@ -35,11 +35,15 @@ class Game {
   }
 
   randomNumber() {
-    do {
-      var number = Math.round(Math.floor(Math.random() * (this.canvas.width - 0) + parseInt(0)));
-      var isPar = number % this.size;
-    } while (isPar != 0);
-    return number;
+    return Math.round((Math.random() * (this.canvas.width - 0) + 0) / this.size) * this.size;
+  }
+
+  advanceSnake() {
+    const head = new Position(this.snake[0].X + this.dx, this.snake[0].Y + this.dy);
+    this.snake.unshift(head); // agrega un elemento al inicio del array
+    this.snake.pop(); // elimina ultimo elemento del array
+    this.dx = 0;
+    this.dy = 0;
   }
 
   collision() {
@@ -96,15 +100,19 @@ class Game {
       switch (this.direction) {
         case 1:
           this.snake[index].Y -= this.size;
+          this.dy -= this.size;
           break;
         case 2:
           this.snake[index].Y += this.size;
+          this.dy += this.size;
           break;
         case 3:
           this.snake[index].X += this.size;
+          this.dx += this.size;
           break;
         case 4:
           this.snake[index].X -= this.size;
+          this.dx -= this.size;
           break;
       }
 
@@ -116,26 +124,6 @@ class Game {
       }
       break;
     }
-  }
-
-  nextU(index) {
-    console.log(index, this.snake);
-    if (isNullOrUndefined(this.snake[index])) return 0;
-    switch (this.direction) {
-      case 1:
-        this.snake[index].Y -= this.size;
-        break;
-      case 2:
-        this.snake[index].Y += this.size;
-        break;
-      case 3:
-        this.snake[index].X += this.size;
-        break;
-      case 4:
-        this.snake[index].X -= this.size;
-        break;
-    }
-    return this.nextU(index++);
   }
 }
 
